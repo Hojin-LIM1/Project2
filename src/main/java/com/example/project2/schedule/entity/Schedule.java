@@ -1,6 +1,7 @@
 package com.example.project2.schedule.entity;
 
 
+import com.example.project2.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY) // 지연시키기
+    @JoinColumn(name = "user_id") //
+    private User user;
     private String author;
     private String title;
     private String content;
@@ -28,6 +32,8 @@ public class Schedule {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime updateDate;
+
+
 
     public Schedule(String author, String title, String content) {
         this.author = author;
