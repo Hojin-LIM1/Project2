@@ -24,6 +24,8 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    @Column(nullable = false)
+    private String password;
     @CreatedDate
     @Column(updatable = false, nullable=false)
     private LocalDateTime createDate;
@@ -34,15 +36,17 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Schedule> schedules = new ArrayList<>();
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
 
     }
 
-    public void update(String name, String email){
+    public void update(String name, String email, String password){
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
 }
