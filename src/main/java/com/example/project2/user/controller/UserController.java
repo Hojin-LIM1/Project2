@@ -4,6 +4,8 @@ package com.example.project2.user.controller;
 import com.example.project2.user.dto.*;
 import com.example.project2.user.repository.UserRepository;
 import com.example.project2.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +53,13 @@ public class UserController {
         userService.delete(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest request, HttpSession session) {
+        SessionUser sessionUser = userService.login(request);
+        session.setAttribute("LoginMember", sessionUser);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
+

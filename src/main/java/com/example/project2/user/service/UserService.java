@@ -4,6 +4,7 @@ package com.example.project2.user.service;
 import com.example.project2.user.dto.*;
 import com.example.project2.user.entity.User;
 import com.example.project2.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +75,22 @@ public class UserService {
         );
         userRepository.delete(user);
 
+    }
+
+    //로그인
+    @Transactional(readOnly = true)
+    public SessionUser login(@Valid LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new IllegalStateException(("없는 계정입니다."))
+        );
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new SessionUser(
+                user.getId(),
+                user.getEmail()
+        );
     }
 
 
