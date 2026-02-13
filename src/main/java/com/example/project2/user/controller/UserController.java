@@ -58,7 +58,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest request, HttpSession session) {
         SessionUser sessionUser = userService.login(request);
-        session.setAttribute("LoginMember", sessionUser);
+        session.setAttribute("LoginUser", sessionUser);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
